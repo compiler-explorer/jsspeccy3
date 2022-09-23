@@ -1,0 +1,16 @@
+name: Upload
+description: "Uploads a build to S3"
+runs:
+  steps:
+    - name: Npm things
+      run: npm i
+    - name: Build
+      run: npm run build
+    - name: Upload to S3
+      uses: prewk/s3-cp-action@v2
+      with:
+        source: ./dist
+        dest: s3://ce-cdn.net/jsspeccy
+        flags: --recursive
+        aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
